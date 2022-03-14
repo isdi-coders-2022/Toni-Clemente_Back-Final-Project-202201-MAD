@@ -32,7 +32,7 @@ describe('Given the locations controller', () => {
                 expect(res.json).toHaveBeenCalled();
             });
         });
-        describe('And it does not work (promise is rejected)', () => {
+        describe('If it does not work (promise is rejected)', () => {
             beforeEach(() => {
                 crud.getAllLocations.mockRejectedValue(
                     new Error('Get All Locations not possible')
@@ -46,7 +46,7 @@ describe('Given the locations controller', () => {
         });
     });
 
-    describe('When  addLocation is triggered', () => {
+    describe('When addLocation is triggered', () => {
         describe('And location is trying to add (promise is resolved)', () => {
             beforeEach(() => {
                 crud.insertLocation.mockResolvedValue({});
