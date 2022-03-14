@@ -23,6 +23,7 @@ app.use(express.json());
 app.use(morgan('dev'));
 app.use(cors());
 
+// Se llama a los routers
 app.use('/locations', locationsRouter);
 app.use('/login', loginRouter);
 app.use('/users', userRouter);
