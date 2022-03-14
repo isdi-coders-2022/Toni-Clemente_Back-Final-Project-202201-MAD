@@ -5,17 +5,19 @@ import { createError } from '../services/errors.js';
 
 export const getAllUsers = async (req, res, next) => {
     try {
-        const resp = await User.find({}).populate('tasks', {
+        const resp = await User.find({}).populate('locations', {
             responsible: 0,
         });
         res.json(resp);
     } catch (err) {
+        console.log('mierda');
         next(createError(err, 404));
     }
 };
 
 export const insertUser = async (req, resp, next) => {
     try {
+        console.log('no tunciona');
         const encryptedPasswd = bcrypt.hashSync(req.body.passwd);
         const userData = { ...req.body, passwd: encryptedPasswd };
         const newUser = new User(userData);
