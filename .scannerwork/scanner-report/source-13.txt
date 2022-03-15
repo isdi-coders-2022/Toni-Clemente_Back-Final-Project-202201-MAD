@@ -6,7 +6,7 @@ import { createError } from '../services/errors.js';
 export const getAllUsers = async (req, res, next) => {
     try {
         const resp = await User.find({}).populate('locations', {
-            author: 0,
+            responsible: 0,
         });
         res.json(resp);
     } catch (err) {

@@ -100,23 +100,10 @@ describe('Given the locations controller', () => {
                 expect(res.json).toHaveBeenCalled();
             });
         });
-        describe('If the id is not found (promise rejected)', () => {
-            beforeEach(() => {
-                req.params.id = '0000';
-                crud.updateLocation.mockRejectedValue(
-                    new Error('The id has not being found')
-                );
-            });
-            test('Then call next', async () => {
-                await controller.updateLocation(req, res, next);
-                expect(res.json).not.toHaveBeenCalled();
-                // expect(next).toHaveBeenCalled();
-            });
-        });
     });
 
     describe('When deleteLocation is triggered', () => {
-        describe('And if id exists', () => {
+        describe('And id exists', () => {
             beforeEach(() => {
                 // req.params.id = '619516dd75bcdf9b77e6690c';
                 crud.deleteLocation.mockResolvedValue([]);
@@ -125,19 +112,6 @@ describe('Given the locations controller', () => {
                 await controller.deleteLocation(req, res, next);
                 expect(res.status).toHaveBeenCalledWith(202);
                 expect(res.json).toHaveBeenCalled();
-            });
-        });
-        describe('If the id is not found (promise rejected)', () => {
-            beforeEach(() => {
-                req.params.id = '0000';
-                crud.deleteLocation.mockRejectedValue(
-                    new Error('The id has not being found')
-                );
-            });
-            test('Then call next', async () => {
-                await controller.deleteLocation(req, res, next);
-                expect(res.json).not.toHaveBeenCalled();
-                // expect(next).toHaveBeenCalled();
             });
         });
     });
