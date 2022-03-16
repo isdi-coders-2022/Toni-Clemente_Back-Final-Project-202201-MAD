@@ -10,7 +10,6 @@ export const getAllUsers = async (req, res, next) => {
         });
         res.json(resp);
     } catch (err) {
-        console.log('mierda');
         next(createError(err, 404));
     }
 };
