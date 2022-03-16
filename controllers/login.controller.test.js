@@ -22,15 +22,15 @@ describe('Given the login controller', () => {
     });
 
     describe('When login is triggered', () => {
-        describe('And there are not user name ', () => {
+        describe('And there is no user name ', () => {
             test('Then call next', async () => {
-                req.body = { name: 'Pepe' };
+                req.body = { name: 'Juanito' };
                 await controller.login(req, res, next);
                 expect(res.json).not.toHaveBeenCalled();
                 expect(next).toHaveBeenCalled();
             });
         });
-        describe('And there are not passwd', () => {
+        describe('And there is no passwd', () => {
             test('Then call next ', async () => {
                 req.body = { passwd: '1234' };
                 await controller.login(req, res, next);
@@ -39,9 +39,9 @@ describe('Given the login controller', () => {
             });
         });
 
-        describe('And there are user name or passwd', () => {
+        describe('And there is user name or passwd', () => {
             beforeEach(() => {
-                req.body = { name: 'Pepe', passwd: '1234' };
+                req.body = { name: 'Juanito', passwd: '1234' };
             });
 
             describe('And the user name is not found', () => {
@@ -52,7 +52,7 @@ describe('Given the login controller', () => {
                 });
             });
 
-            describe('And the passwd is no correct', () => {
+            describe('And the passwd is not correct', () => {
                 test('Then call next', async () => {
                     await User.findOne.mockResolvedValue({});
                     bcrypt.compareSync.mockReturnValue(null);
@@ -64,7 +64,7 @@ describe('Given the login controller', () => {
             describe('And the user name and passwd are ok', () => {
                 test('Then call send', async () => {
                     const user = {
-                        name: 'Pepe',
+                        name: 'Juanito',
                         id: '1',
                     };
                     await User.findOne.mockResolvedValue(user);
@@ -72,7 +72,7 @@ describe('Given the login controller', () => {
                     createToken.mockReturnValue('mock_token');
                     await controller.login(req, res, next);
                     expect(res.json).toHaveBeenCalledWith({
-                        userName: 'Pepe',
+                        userName: 'Juanito',
                         id: '1',
                         token: 'mock_token',
                     });

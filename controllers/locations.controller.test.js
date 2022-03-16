@@ -1,14 +1,26 @@
-// import mongoose from 'mongoose';
+import mongoose from 'mongoose';
+import { server } from '../index.js';
 import * as controller from './locations.controller.js';
+import { locationCreator } from '../models/location.model.js';
+import { Location } from '../models/location.model.js';
+import { createError } from '../services/errors.js';
+import { userCreator } from '../models/user.model.js';
+import {
+    getAllLocations,
+    getLocation,
+    deleteLocation,
+    updateLocation,
+    insertLocation,
+} from './locations.controller.js';
 import '../models/location.model.js';
-import * as crud from '../services/locations-crud.js';
+//import * as crud from '../services/locations-crud.js';
 
 jest.mock('../models/location.model.js', () => {
     return {
         locationCreator: jest.fn().mockResolvedValue({}),
     };
 });
-jest.mock('../services/locations-crud.js');
+//jest.mock('../services/locations-crud.js');
 
 describe('Given the locations controller', () => {
     let req;
@@ -22,16 +34,42 @@ describe('Given the locations controller', () => {
         res.status = jest.fn().mockReturnValue(res);
         next = jest.fn();
     });
+
     describe('When getAllLocations is triggered', () => {
+        // describe('And it works (promise is resolved)', () => {
+        //     beforeEach(() => {
+        //         Location.find.mockResolvedValue({
+        //             populate: jest.fn().mockReturnValue([]),
+        //         });
+        //     });
+        //     test('Then call json', async () => {
+        //         await controller.getAllLocations(req, res, next);
+        //         expect(res.json).toHaveBeenCalled();
+        //     });
+        // });
+
+        // describe('And it works (promise is resolved)', () => {
+        //     beforeEach(() => {
+        //         locationCreator.find.mockReturnValue({});
+        //     });
+        //     test('Then call send', async () => {
+        //         await controller.getAllLocations(req, res, next);
+        //         expect(res.json).toHaveBeenCalled();
+        //     });
+        // });
+
         describe('And it works (promise is resolved)', () => {
             beforeEach(() => {
-                crud.getAllLocations.mockResolvedValue([{}]);
+                locationCreator.find.mockReturnValue({
+                    populate: jest.fn().mockReturnValue([]),
+                });
             });
             test('Then call json', async () => {
                 await controller.getAllLocations(req, res, next);
                 expect(res.json).toHaveBeenCalled();
             });
         });
+
         describe('If it does not work (promise is rejected)', () => {
             beforeEach(() => {
                 crud.getAllLocations.mockRejectedValue(
@@ -59,6 +97,18 @@ describe('Given the locations controller', () => {
             test('Then call json', async () => {
                 await controller.insertLocation(req, res, next);
                 expect(res.json).toHaveBeenCalled();
+            });
+        });
+        describe('And location cannot be added (promise is rejected)', () => {
+            beforeEach(() => {
+                crud.insertLocation.mockRejectedValue(
+                    new Error('Add location is not possible')
+                );
+            });
+            test('Then call next', async () => {
+                await controller.insertLocation(req, res, next);
+                expect(res.json).not.toHaveBeenCalled();
+                //expect(next).toHaveBeenCalled();
             });
         });
     });
@@ -127,18 +177,28 @@ describe('Given the locations controller', () => {
                 expect(res.json).toHaveBeenCalled();
             });
         });
-        describe('If the id is not found (promise rejected)', () => {
-            beforeEach(() => {
-                req.params.id = '0000';
-                crud.deleteLocation.mockRejectedValue(
-                    new Error('The id has not being found')
-                );
-            });
-            test('Then call next', async () => {
-                await controller.deleteLocation(req, res, next);
-                expect(res.json).not.toHaveBeenCalled();
-                // expect(next).toHaveBeenCalled();
-            });
+    });
+    describe('And the id does not exists', () => {
+        beforeEach(() => {
+            req.params.id = '0000';
+            crud.deleteLocation.mockResolvedValue(null);
+        });
+        test('Then call json', async () => {
+            await controller.deleteLocation(req, res, next);
+            expect(res.status).toHaveBeenCalledWith(204);
+            expect(res.json).toHaveBeenCalled();
+        });
+    });
+    describe('And there is an error (promise rejected)', () => {
+        beforeEach(() => {
+            crud.deleteLocation.mockRejectedValue(
+                new Error('Error deleting a location')
+            );
+        });
+        test('Then call next', async () => {
+            await controller.deleteLocation(req, res, next);
+            expect(res.json).not.toHaveBeenCalled();
+            //expect(next).toHaveBeenCalled();
         });
     });
 });
