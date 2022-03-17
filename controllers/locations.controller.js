@@ -6,14 +6,6 @@ import { User } from '../models/user.model.js';
 
 import { Location } from '../models/location.model.js';
 
-/* export const getAllTasks = (req, res, next) => {
-    crud.getAllTasks(Task)
-        .then((resp) => {
-            res.json(resp);
-        })
-        .catch((err) => next(err));
-}; */
-
 export const getAllLocations = async (req, res, next) => {
     try {
         const resp = await Location.find({}).populate('author', {
@@ -78,21 +70,6 @@ export const deleteLocation = async (req, res, next) => {
     }
 };
 
-//     crud.deleteLocation(req.params.id, Location)
-//         .then((resp) => {
-//             if (resp) {
-//                 res.status(202);
-//                 res.json(resp);
-//             } else {
-//                 res.status(204);
-//                 res.json({ message: 'Tarea no existente' });
-//             }
-//         })
-//         .catch((err) => {
-//             next(createError(err));
-//         });
-// };
-
 export const updateLocation = async (req, res, next) => {
     try {
         const resp = await Location.findByIdAndUpdate(req.params.id, req.body, {
@@ -105,11 +82,3 @@ export const updateLocation = async (req, res, next) => {
         next(createError(err));
     }
 };
-
-//     crud.updateLocation(req.params.id, req.body, Location)
-//         .then((resp) => {
-//             res.json(resp);
-//         })
-//         .catch((err) => next(createError(err)));
-// };
-//

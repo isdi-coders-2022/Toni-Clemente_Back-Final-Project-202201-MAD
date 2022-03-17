@@ -184,3 +184,5 @@ describe('Given the locations controller', () => {
         });
     });
 });
+
+//
