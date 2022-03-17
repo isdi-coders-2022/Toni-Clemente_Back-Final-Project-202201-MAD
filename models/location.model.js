@@ -24,13 +24,13 @@ export function locationCreator(modelName = 'Location') {
         },
     });
 
-    let Location;
+    let location;
     if (mongoose.default.models[modelName]) {
-        Location = mongoose.model(modelName);
+        location = mongoose.model(modelName);
     } else {
-        Location = mongoose.model(modelName, locationSchema);
+        location = mongoose.model(modelName, locationSchema);
     }
-    return Location;
+    return location;
 }
 
 export const Location = locationCreator();

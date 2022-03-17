@@ -1,10 +1,10 @@
 /* eslint-disable no-unused-vars */
 //import * as crud from '../services/locations-crud.js';
-import { locationCreator } from '../models/location.model.js';
-import { createError } from '../services/errors.js';
-import { userCreator } from '../models/user.model.js';
 
-export const Location = locationCreator();
+import { createError } from '../services/errors.js';
+import { User } from '../models/user.model.js';
+
+import { Location } from '../models/location.model.js';
 
 /* export const getAllTasks = (req, res, next) => {
     crud.getAllTasks(Task)
@@ -21,6 +21,7 @@ export const getAllLocations = async (req, res, next) => {
         });
         res.json(resp);
     } catch (err) {
+        console.log(err);
         next(createError(err));
     }
 };
@@ -38,8 +39,6 @@ export const getLocation = async (req, res, next) => {
 
 export const insertLocation = async (req, res, next) => {
     try {
-        const User = userCreator();
-
         const user = await User.findById(req.body.author);
 
         if (!user) {
@@ -74,6 +73,7 @@ export const deleteLocation = async (req, res, next) => {
         );
         res.json(resp);
     } catch (err) {
+        console.log('Error', err);
         next(createError(err));
     }
 };
