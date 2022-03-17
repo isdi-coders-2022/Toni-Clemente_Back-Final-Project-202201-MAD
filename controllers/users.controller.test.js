@@ -3,7 +3,7 @@ import * as controller from './users.controller.js';
 // import { createToken } from '../services/auth.js';
 import { User } from '../models/user.model.js';
 //import { createToken } from '../services/auth';
-import bcrypt from 'bcryptjs';
+//import bcrypt from 'bcryptjs';
 
 jest.mock('../models/user.model.js');
 
