@@ -32,3 +32,5 @@ export function locationCreator(modelName = 'Location') {
     }
     return Location;
 }
+
+export const Location = locationCreator();
