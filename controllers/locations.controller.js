@@ -1,18 +1,10 @@
 /* eslint-disable no-unused-vars */
 //import * as crud from '../services/locations-crud.js';
-import { locationCreator } from '../models/location.model.js';
+
 import { createError } from '../services/errors.js';
-import { userCreator } from '../models/user.model.js';
+import { User } from '../models/user.model.js';
 
-export const Location = locationCreator();
-
-/* export const getAllTasks = (req, res, next) => {
-    crud.getAllTasks(Task)
-        .then((resp) => {
-            res.json(resp);
-        })
-        .catch((err) => next(err));
-}; */
+import { Location } from '../models/location.model.js';
 
 export const getAllLocations = async (req, res, next) => {
     try {
@@ -21,6 +13,7 @@ export const getAllLocations = async (req, res, next) => {
         });
         res.json(resp);
     } catch (err) {
+        console.log(err);
         next(createError(err));
     }
 };
@@ -38,8 +31,6 @@ export const getLocation = async (req, res, next) => {
 
 export const insertLocation = async (req, res, next) => {
     try {
-        const User = userCreator();
-
         const user = await User.findById(req.body.author);
 
         if (!user) {
@@ -74,24 +65,10 @@ export const deleteLocation = async (req, res, next) => {
         );
         res.json(resp);
     } catch (err) {
+        console.log('Error', err);
         next(createError(err));
     }
 };
-
-//     crud.deleteLocation(req.params.id, Location)
-//         .then((resp) => {
-//             if (resp) {
-//                 res.status(202);
-//                 res.json(resp);
-//             } else {
-//                 res.status(204);
-//                 res.json({ message: 'Tarea no existente' });
-//             }
-//         })
-//         .catch((err) => {
-//             next(createError(err));
-//         });
-// };
 
 export const updateLocation = async (req, res, next) => {
     try {
@@ -105,10 +82,3 @@ export const updateLocation = async (req, res, next) => {
         next(createError(err));
     }
 };
-
-//     crud.updateLocation(req.params.id, req.body, Location)
-//         .then((resp) => {
-//             res.json(resp);
-//         })
-//         .catch((err) => next(createError(err)));
-// };
