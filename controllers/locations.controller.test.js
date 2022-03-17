@@ -95,7 +95,7 @@ describe('Given the locations controller', () => {
         });
     });
 
-    describe('Testing  insertLocation ', () => {
+    describe('Testing insertLocation ', () => {
         test('should return correct mockResolvedValue', async () => {
             Location.create.mockResolvedValue([mockLocation]);
 

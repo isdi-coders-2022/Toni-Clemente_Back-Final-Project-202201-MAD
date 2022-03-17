@@ -112,3 +112,4 @@ export const updateLocation = async (req, res, next) => {
 //         })
 //         .catch((err) => next(createError(err)));
 // };
+//
