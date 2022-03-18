@@ -8,7 +8,6 @@ import { User } from '../models/user.model.js';
 // import { userCreator } from '../models/user.model.js';
 
 // import '../models/location.model.js';
-//import * as crud from '../services/locations-crud.js';
 
 jest.mock('../models/location.model.js');
 jest.mock('../models/user.model.js');
@@ -18,13 +17,20 @@ describe('Given the locations controller', () => {
     let res;
     let next;
     beforeEach(() => {
-        req = { params: { id: '' } };
+        req = { params: { id: '' }, body: { author: 'holita' } };
         res = {};
         res.send = jest.fn().mockReturnValue(res);
         res.json = jest.fn().mockReturnValue(res);
         res.status = jest.fn().mockReturnValue(res);
         next = jest.fn();
     });
+
+    const userMock = {
+        name: 'toni',
+        passwd: '12345',
+        locations: [],
+        save: jest.fn(),
+    };
     // afterAll(async () => {
     //     server.close();
     //     await mongoose.disconnect();
@@ -34,7 +40,7 @@ describe('Given the locations controller', () => {
         state: 'murcia',
         town: 'cehegin',
         comment: 'aqui se ponen cosas',
-        map: 'vamos a ver',
+        map: 'no se como pijo hacer esto',
         author: '622f6afd9b98435e85795974',
         photos: '[]',
     };
@@ -98,20 +104,12 @@ describe('Given the locations controller', () => {
     describe('Testing insertLocation ', () => {
         test('should return correct mockResolvedValue', async () => {
             Location.create.mockResolvedValue([mockLocation]);
+            User.findById.mockResolvedValue(userMock);
 
             await controller.insertLocation(req, res);
 
             expect(res.json).toHaveBeenCalledTimes(1);
-            //expect(res.json).toHaveBeenCalledWith([
-            //     {
-            //         state: 'murcia',
-            //         town: 'cehegin',
-            //         comment: 'aqui se ponen cosas',
-            //         map: 'no se como pijo hacer esto',
-            //         author: '622f6afd9b98435e85795974',
-            //         photos: '[]',
-            //     },
-            // ]);
+            expect(res.json).toHaveBeenCalledWith([mockLocation]);
         });
 
         describe('And it does not work (promise is rejected)', () => {
@@ -122,19 +120,6 @@ describe('Given the locations controller', () => {
                 expect(next).toHaveBeenCalled();
             });
         });
-
-        // describe('And locationcannot be added (promise is rejected)', () => {
-        //     beforeEach(() => {
-        //         Location.findByIdAndUpdate.mockRejectedValue(
-        //             new Error('Add location is not possible')
-        //         );
-        //     });
-        //     test('Then call next', async () => {
-        //         await controller.insertLocation(req, res, next);
-        //         expect(res.json).not.toHaveBeenCalled();
-        //         expect(next).toHaveBeenCalled();
-        //     });
-        // });
     });
 
     describe('Testing deleteLocation()', () => {

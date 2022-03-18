@@ -16,7 +16,6 @@ export const getAllUsers = async (req, res, next) => {
 
 export const insertUser = async (req, resp, next) => {
     try {
-        console.log('no tunciona');
         const encryptedPasswd = bcrypt.hashSync(req.body.passwd);
         const userData = { ...req.body, passwd: encryptedPasswd };
         const newUser = new User(userData);
@@ -31,6 +30,7 @@ export const insertUser = async (req, resp, next) => {
             id: result.id,
         });
     } catch (error) {
+        console.log('error este', error);
         next(createError(error));
     }
 };
