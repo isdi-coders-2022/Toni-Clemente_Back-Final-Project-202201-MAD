@@ -36,21 +36,25 @@ export const insertLocation = async (req, res, next) => {
         if (!user) {
             return null;
         }
-        const tempLocation = await Location.create(req.body);
+        const savedLocation = await Location.create({
+            ...req.body,
+            author: user._id,
+        });
 
-        const savedLocation = await Location.findById(tempLocation.id).populate(
-            'author',
-            {
-                locations: 0,
-            }
-        );
+        // const savedLocation = await Location.findById(tempLocation.id).populate(
+        //     'author',
+        //     {
+        //         locations: 0,
+        //     }
+        // );
 
         // const result = await newTask.save(); incluido en create
         user.locations = [...user.locations, savedLocation.id];
         user.save();
         //console.log(savedLocation);
-        return savedLocation;
+        res.json(savedLocation);
     } catch (err) {
+        //console.log('catched error:', err);
         next(createError(err));
     }
 };
@@ -65,7 +69,6 @@ export const deleteLocation = async (req, res, next) => {
         );
         res.json(resp);
     } catch (err) {
-        console.log('Error', err);
         next(createError(err));
     }
 };
