@@ -4,7 +4,7 @@ import { locationCreator } from './models/location.model.js';
 import { userCreator } from './models/user.model.js';
 import { createToken } from './services/auth.js';
 import data from './data/location.data.js';
-import { installUsers } from '../services/db.js';
+import { installUsers } from './services/db.js';
 
 describe('Given the test database with a initial Location collection', () => {
     // const collection = '';

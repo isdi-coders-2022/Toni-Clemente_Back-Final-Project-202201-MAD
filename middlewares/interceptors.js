@@ -27,7 +27,7 @@ export const userRequired = async (req, res, next) => {
     const userId = req.tokenPayload.id;
     const location = await Location.findById(locationId);
     console.log(location, userId);
-    if (location.responsible.toString() === userId) {
+    if (location.author.toString() === userId) {
         next();
     } else {
         const userError = new Error('not authorized user');
