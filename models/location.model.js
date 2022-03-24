@@ -5,7 +5,8 @@ export function locationCreator(modelName = 'Location') {
         state: { type: String, required: true },
         town: { type: String, required: true },
         comment: { type: String, required: true },
-        map: { type: String, required: true },
+        latitude: { type: String, required: true },
+        longitude: { type: String, required: true },
         author: {
             type: mongoose.Types.ObjectId,
             ref: 'User',
