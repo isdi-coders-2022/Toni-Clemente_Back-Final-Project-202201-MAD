@@ -11,12 +11,7 @@ export function locationCreator(modelName = 'Location') {
             type: mongoose.Types.ObjectId,
             ref: 'User',
         },
-        photos: [
-            {
-                type: String,
-                required: true,
-            },
-        ],
+        photo: { type: String, required: true },
     });
 
     locationSchema.set('toJSON', {
